@@ -75,7 +75,7 @@ Alle Zahlen mit festen Zufalls-Seeds (`SWEEP_SEEDS` 100000 bis 100004, bei Zusam
 | `.gitignore` | venv, Caches, Streamlit-Secrets |
 | `.streamlit/config.toml` | Streamlit-Einstellungen (keine Nutzungsstatistik) |
 | `app.py` | Streamlit-App |
-| `requirements-dev.txt` | Laufzeit plus pytest und networkx (nur Gegenprobe) |
+| `requirements-dev.txt` | Laufzeit plus pytest, scipy und networkx (nur Gegenproben) |
 | `requirements.txt` | Laufzeit-Bibliotheken (ungepinnt) |
 | `zgr_algorithm.py` | Kern: Kantenziehung, Union-Find, Kurve der größten Komponente, Theorie |
 | `zgr_constants.py` | Regler-Grenzen, feste Pläne der Messreihen, Farben, Presets |
