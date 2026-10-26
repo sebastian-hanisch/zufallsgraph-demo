@@ -70,13 +70,26 @@ st.markdown(
     """
 Ein **Zufallsgraph** entsteht, indem jedes Paar von Knoten mit gleicher Wahrscheinlichkeit durch eine Kante verbunden wird. Wächst die Zahl der Kanten, passiert etwas Plötzliches:
 Ab einem **mittleren Grad von 1** (im Mittel eine Kante je Knoten) bildet sich eine **Riesenkomponente**, die einen festen Anteil aller Knoten enthält, und ab etwa dem
-**natürlichen Logarithmus der Knotenzahl** hängt das ganze Netz zusammen. Die Demo rechnet das nach, stellt Messung und Theorie nebeneinander und zeigt, wie **verschmiert**
-der Übergang bei endlicher Größe ist. Erstes Stück der Linie „Netzmodelle“; sie erzeugt Netze, statt ein gegebenes Netz zu vermessen.
+**natürlichen Logarithmus der Knotenzahl** hängt das ganze Netz mit wachsender Wahrscheinlichkeit zusammen (bei diesem Grad erst zu rund 37 %). Die Demo rechnet das nach, stellt Messung und Theorie nebeneinander und zeigt, wie **verschmiert**
+der Übergang bei endlicher Größe ist. Erstes Stück der Linie „Netzmodelle“; sie erzeugt Netze, statt ein gegebenes Netz zu vermessen. Wer die Idee zuerst ohne Fachbegriffe verstehen will, öffnet „💬 In einfachen Worten“.
 
 Weiter unten: 🔬 **Kante für Kante wachsen lassen**, 🔬 **Riesenkomponente gegen die Theorie**, 🔬 **Messreihen** (Verschmierung, Zusammenhang, kritischer Punkt), 🚧 **Wo die Annahmen enden** und der Expander
 **📐 Mathematische Formulierung**.
 """
 )
+
+# erklaerseite:einfach:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/zufallsgraph-erklaert.json, nicht von Hand ändern)
+with st.expander("💬 In einfachen Worten"):
+    st.markdown(
+        """
+Stellen Sie sich einen Betriebsverbund vor, in dem für jedes mögliche Paar von Betrieben gewürfelt wird, ob es eine Verbindung gibt, etwa eine Lieferbeziehung. Das Ergebnis heißt **Zufallsgraph**. Der einzige Regler ist der **mittlere Grad**: wie viele Verbindungen ein Betrieb im Mittel hat.
+
+Ist der mittlere Grad klein, besteht das Netz aus vielen kleinen Inseln. Sobald jeder Betrieb im Mittel mehr als einen Partner hat, **kippt das Bild**: Eine große Gruppe entsteht, in der ein großer Teil aller Betriebe zusammenhängt. Die Demo legt gezogene Netze neben die Theorie. Weit von der Schwelle stimmt beides gut überein, dicht an der Schwelle zeigt ein endliches Netz den Übergang nur verschmiert.
+
+[Ausführlich und verständlich erklärt, mit Fachteil](https://sebastianhanisch.net/zufallsgraph-erklaert.html)
+        """
+    )
+# erklaerseite:einfach:end
 
 with st.expander("So funktioniert ein Zufallsgraph", expanded=True):
     st.markdown(
@@ -217,6 +230,23 @@ st.markdown(
 st.markdown("---")
 
 with st.expander("📐 Mathematische Formulierung"):
+    # erklaerseite:lesehilfe:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/zufallsgraph-erklaert.json, nicht von Hand ändern)
+    st.markdown(
+        r"""
+**Lesehilfe.** Gegeben sind $n$ Knoten; jede der $\binom{n}{2}$ möglichen Kanten kommt unabhängig mit Wahrscheinlichkeit $p$ vor. Gesucht: wie groß die größte Komponente wird, wenn der mittlere Grad $c$ wächst.
+
+| Symbol | Bedeutung |
+|---|---|
+| $n$ | Zahl der Knoten |
+| $p$ | Wahrscheinlichkeit je möglicher Kante, hier $p = c / (n-1)$ |
+| $c$ | erwarteter mittlerer Grad |
+| $S$ | Anteil der Knoten in der Riesenkomponente (Grenzwert für $n \to \infty$) |
+| $\chi$ | größen-gewichtete mittlere Größe der kleineren Komponenten |
+
+[Schritt für Schritt erklärt, mit Herleitung und Literatur](https://sebastianhanisch.net/zufallsgraph-erklaert.html#fachleute)
+        """
+    )
+    # erklaerseite:lesehilfe:end
     st.markdown(
         r"""
 **Lesehilfe.** Gegeben sind $n$ Knoten; jede der $\binom{n}{2}$ möglichen Kanten kommt unabhängig mit Wahrscheinlichkeit $p$ vor. Gesucht: wie groß die größte Komponente wird, wenn der mittlere Grad $c$ wächst.
@@ -237,7 +267,7 @@ $$S = 1 - e^{-cS}.$$
 
 $$\chi = \frac{1}{1 - c\,(1 - S)},$$
 
-unterhalb der Schwelle also $\chi = 1/(1-c)$; sie divergiert bei $c \to 1$.
+unterhalb der Schwelle also $\chi = 1/(1-c)$; sie divergiert bei $c \to 1$. Die gemessene Größe lässt die größte Komponente weg; unterhalb der Schwelle liegt die Messung deshalb und wegen der Endlichkeit unter der Theorie.
 
 **Zusammenhang.** Bei mittlerem Grad $c = \ln n + x$ ist das Netz mit Wahrscheinlichkeit
 

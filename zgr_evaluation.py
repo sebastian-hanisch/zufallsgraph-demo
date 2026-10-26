@@ -135,7 +135,7 @@ def verdict_regime(a: Analysis) -> tuple[str, str]:
                         f"eine Riesenkomponente gibt es in der Theorie nicht (Theorie: {num(a.giant_theory * 100, 1)} %).")
     if a.regime == "kritisch":
         return "warning", (f"Bei c = {num(c, 1)} liegt das Netz im Übergangsbereich: Die größte Komponente hat {a.sizes[0]} Knoten ({num(a.giant * 100, 1)} %); "
-                           f"die Theorie ergibt {num(a.giant_theory * 100, 1)} %, bei endlicher Größe weicht die Messung davon deutlich ab.")
+                           f"die Theorie ergibt {num(a.giant_theory * 100, 1)} %, bei endlicher Größe kann die Messung davon deutlich abweichen.")
     return "success", (f"Bei c = {num(c, 1)} ist das Netz überkritisch: Die Riesenkomponente hat {a.sizes[0]} von {n} Knoten ({num(a.giant * 100, 1)} %), "
                        f"die Theorie ergibt {num(a.giant_theory * 100, 1)} %. Die zweitgrößte Komponente hat nur {a.second} Knoten.")
 
@@ -148,7 +148,8 @@ def verdict_theory(rows: list[dict], n: int) -> tuple[str, str]:
     text = f"Ab c = 1,4 weicht die gemessene Riesenkomponente bei n = {n} höchstens um {num(worst * 100, 1)} Prozentpunkte von der Theorie ab"
     if near is None:
         return "success", text + "."
-    return "info", text + f"; bei c = 1,1 liegt sie bei {num(near['giant'] * 100, 1)} % statt {num(near['theory'] * 100, 1)} %."
+    return "info", text + (f"; bei c = 1,1 liegt sie im Median der festen Pläne bei {num(near['giant'] * 100, 1)} % statt {num(near['theory'] * 100, 1)} %, "
+                           "doch dort streuen einzelne Pläne sehr stark, der Median aus wenigen Plänen ist nicht stabil.")
 
 
 def verdict_finite(rows: list[dict], cs=C.FINITE_C) -> tuple[str, str]:
@@ -176,5 +177,5 @@ def verdict_critical(rows: list[dict]) -> tuple[str, str]:
     ratios = [r["ratio"] for r in rows]
     first, last = rows[0], rows[-1]
     return "info", (f"Am kritischen Punkt c = 1 liegt die größte Komponente im Median bei {num(first['median'], 0)} (n = {first['n']}) bis {num(last['median'], 0)} (n = {last['n']}). "
-                    f"Geteilt durch n^(2/3) ergeben sich Werte von {num(min(ratios), 2)} bis {num(max(ratios), 2)}; ein fester Anteil von n wäre es nicht ({num(first['median'] / first['n'] * 100, 1)} % gegen "
+                    f"Geteilt durch n^(2/3) ergeben sich Werte von {num(min(ratios), 2)} bis {num(max(ratios), 2)} (bei wenigen Plänen je Größe ist die Konstante unscharf); ein fester Anteil von n wäre es nicht ({num(first['median'] / first['n'] * 100, 1)} % gegen "
                     f"{num(last['median'] / last['n'] * 100, 1)} %).")
